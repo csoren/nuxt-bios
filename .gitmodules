@@ -1,0 +1,3 @@
+[submodule "8088_bios"]
+	path = 8088_bios
+	url = https://github.com/skiselev/8088_bios.git
