@@ -19,7 +19,7 @@ GLABIOS := "glabios/src"
 
 # Build the BIOS'es and modules
 @build-modules:
-    make ide_xt_8088.bin ide_xt_v20.bin bios8088.bin glabios_8088.bin glabios_v20.bin glatick.bin
+    make modules
 
 @build-bios:
     make bios-nuxt-glabios-v20.bin

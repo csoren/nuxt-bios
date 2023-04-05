@@ -37,7 +37,7 @@ $(GLATICK_DIR)/GLATICK.ROM: $(GLATICK_SRC)
 	dosbox TICKMK.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
 
 $(FLOPPY_BIOS_DIR)/floppy_bios.bin:
-	$(MAKE) -C $(FLOPPY_BIOS_DIR) floppy_bios
+	$(MAKE) -C $(FLOPPY_BIOS_DIR) floppy_bios.bin
 
 ide_xt_v20.bin: $(XUB_DIR)/Build/ide_xtp.bin
 	cp $< $@
@@ -61,12 +61,31 @@ glatick.bin: $(GLATICK_DIR)/GLATICK.ROM
 	cp $< $@
 
 bios-nuxt-glabios-v20.bin: bios8088.bin ide_xt_v20.bin glabios_v20.bin floppy_bios.bin glatick.bin
+# First 64 KiB, Micro 8088 BIOS + XT-IDE
+# F000-F1FF XT-IDE
 	cat ide_xt_v20.bin > $@
-	dd if=/dev/zero ibs=1k count=32 | LANG=C tr "\000" "\377" >> $@
+# F200-F7FF Empty
+	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
+# F800-F9FF Empty
+	dd if=/dev/zero ibs=1k count=8 | LANG=C tr "\000" "\377" >> $@
+# FA00-FFFF Micro 8088
 	cat bios8088.bin >> $@
+
+# Second 64 KiB, GLaBIOS + GLaTICK + Multi-Floppy + XT-IDE
+# F000-F1FF XT-IDE
 	cat ide_xt_v20.bin >> $@
-	dd if=/dev/zero ibs=1k count=48 | LANG=C tr "\000" "\377" >> $@
+# F200-F7FF Empty
+	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
+# F800-FA7F Empty
+	dd if=/dev/zero ibs=1k count=14 | LANG=C tr "\000" "\377" >> $@
+# FA80-FC7F Multi-Floppy
+	cat floppy_bios.bin >> $@
+# FC80-FCFF GLaTICK
+	cat glatick.bin >> $@
+# FD00-FFFF GLaBIOS
 	cat glabios_v20.bin >> $@
+
+modules: bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_8088.bin glabios_v20.bin glatick.bin floppy_bios.bin
 
 clean:
 	@-rm -f bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_8088.bin glabios_v20.bin glatick.bin floppy_bios.bin
