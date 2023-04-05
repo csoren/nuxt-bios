@@ -3,16 +3,24 @@ XUB := "xub"
 XUB_EXISTS := path_exists(XUB)
 GLABIOS := "glabios/src"
 
+# Show all recipes
+@_default:
+	just --list
+
+# Initialize the directory after first cloning
 @init:
     if ! {{XUB_EXISTS}}; then \
         svn checkout https://www.xtideuniversalbios.org/svn/xtideuniversalbios/trunk/ {{XUB}}; \
     fi
 
-@update: init
+# Update the XT-IDE Universal BIOS to the latest revision
+@update-xub: init
     svn update {{XUB}}
-    cd {{BIOS_8088}}; git checkout master; git pull --rebase
 
+# Build the BIOS'es and modules
 @build-modules:
-    cd {{BIOS_8088}}; make bios.bin
-    cd {{XUB}}/XTIDE_Universal_BIOS; make AS=nasm xtplus xt
-    cd {{GLABIOS}}; dosbox MAKE.BAT -exit -c "MOUNT D \"../../masm" -c "PATH D:;Z:"
+    make ide_xt.bin ide_xtp.bin bios8088.bin glabios.bin
+
+# Remove build artifacts
+@clean:
+    make clean
