@@ -7,3 +7,6 @@
 [submodule "glatick"]
 	path = glatick
 	url = https://github.com/640-KB/GLaTICK.git
+[submodule "floppy_bios"]
+	path = floppy_bios
+	url = https://github.com/skiselev/floppy_bios.git
