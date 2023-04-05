@@ -1,0 +1,3 @@
+@ECHO OFF
+cd glatick/src
+NMAKE /f GLATICK.MAK GLATICK.EXE

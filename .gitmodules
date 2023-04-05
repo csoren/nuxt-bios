@@ -4,3 +4,6 @@
 [submodule "glabios"]
 	path = glabios
 	url = https://github.com/640-KB/GLaBIOS.git
+[submodule "glatick"]
+	path = glatick
+	url = https://github.com/640-KB/GLaTICK.git

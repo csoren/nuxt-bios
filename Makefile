@@ -1,6 +1,19 @@
-BIOS_8088_DIR=8088_bios
-XUB_DIR=xub/XTIDE_Universal_BIOS
-GLABIOS_DIR=glabios/src
+BIOS_8088_DIR = 8088_bios
+XUB_DIR = xub/XTIDE_Universal_BIOS
+GLABIOS_DIR = glabios/src
+GLATICK_DIR = glatick/src
+
+GLATICK_SRC = \
+	$(GLATICK_DIR)/GLALIB.ASM \
+	$(GLATICK_DIR)/GLALIB.INC \
+	$(GLATICK_DIR)/GLATICK.ASM \
+	$(GLATICK_DIR)/MACROS.INC \
+	$(GLATICK_DIR)/RTC_AT.ASM \
+	$(GLATICK_DIR)/RTC.INC \
+	$(GLATICK_DIR)/RTC_NS.ASM \
+	$(GLATICK_DIR)/RTC_OK.ASM \
+	$(GLATICK_DIR)/RTC_RP.ASM \
+	$(GLATICK_DIR)/SEGS.INC
 
 $(BIOS_8088_DIR)/bios.bin:
 	$(MAKE) -C $(BIOS_8088_DIR) bios.bin
@@ -19,6 +32,9 @@ $(GLABIOS_DIR)/GLABIOS8.ROM: $(GLABIOS_DIR)/GLABIOS.ASM
 $(GLABIOS_DIR)/GLABIOSV.ROM: $(GLABIOS_DIR)/GLABIOS.ASM
 	dosbox GLMKV20.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
 
+$(GLATICK_DIR)/GLATICK.ROM: $(GLATICK_SRC)
+	dosbox TICKMK.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
+
 ide_xt_v20.bin: $(XUB_DIR)/Build/ide_xtp.bin
 	cp $< $@
 
@@ -34,6 +50,9 @@ glabios_8088.bin: $(GLABIOS_DIR)/GLABIOS8.ROM
 glabios_v20.bin: $(GLABIOS_DIR)/GLABIOSV.ROM
 	cp $< $@
 
+glatick.bin: $(GLATICK_DIR)/GLATICK.ROM
+	cp $< $@
+
 bios-nuxt-glabios-v20.bin: bios8088.bin ide_xt_v20.bin glabios_v20.bin
 	cat ide_xt_v20.bin > $@
 	dd if=/dev/zero ibs=1k count=32 | LANG=C tr "\000" "\377" >> $@
@@ -43,8 +62,9 @@ bios-nuxt-glabios-v20.bin: bios8088.bin ide_xt_v20.bin glabios_v20.bin
 	cat glabios_v20.bin >> $@
 
 clean:
-	@-rm -f bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_8088.bin glabios_v20.bin
+	@-rm -f bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_8088.bin glabios_v20.bin glatick.bin
 	@-make -s -C $(BIOS_8088_DIR) clean
 	@-rm -f $(XUB_DIR)/Build/*
 	@-rm -f $(GLABIOS_DIR)/GLABIOS8.ROM $(GLABIOS_DIR)/GLABIOSV.ROM $(GLABIOS_DIR)/GLABIOS.OBJ $(GLABIOS_DIR)/GLABIOS.EXE
-	@-rm bios-nuxt-glabios-v20.bin
+	@-rm -f $(GLATICK_DIR)/*.OBJ $(GLATICK_DIR)/GLATICK.ROM $(GLATICK_DIR)/GLATICK.EXE
+	@-rm -f bios-nuxt-glabios-v20.bin
