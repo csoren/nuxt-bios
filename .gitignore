@@ -1,5 +1,7 @@
 xub/
-glabios.bin
 ide_xt.bin
-ide_xtp.bin
+ide_xt_v20.bin
 bios8088.bin
+glabios_v20.bin
+glabios_8088.bin
+bios-nuxt-glabios-v20.bin
