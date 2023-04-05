@@ -1,6 +1,7 @@
 BIOS_8088 := "8088_bios"
 XUB := "xub"
 XUB_EXISTS := path_exists(XUB)
+GLABIOS := "glabios/src"
 
 @init:
     if ! {{XUB_EXISTS}}; then \
@@ -11,5 +12,7 @@ XUB_EXISTS := path_exists(XUB)
     svn update {{XUB}}
     cd {{BIOS_8088}}; git checkout master; git pull --rebase
 
-@build:
+@build-modules:
     cd {{BIOS_8088}}; make bios.bin
+    cd {{XUB}}/XTIDE_Universal_BIOS; make AS=nasm xtplus xt
+    cd {{GLABIOS}}; dosbox MAKE.BAT -exit -c "MOUNT D \"../../masm" -c "PATH D:;Z:"
