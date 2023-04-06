@@ -88,6 +88,32 @@ bios-nuxt-v20-micro-glabios.bin: bios8088.bin ide_xt_v20.bin glabios_nuxt_v20.bi
 	cat floppy_bios.bin >> $@
 	cat glabios_nuxt_v20.bin >> $@
 
+
+bios-nuxt-8088-micro-glabios.bin: bios8088.bin ide_xt_8088.bin glabios_nuxt_8088.bin floppy_bios.bin glatick.bin
+# First 64 KiB, Micro 8088 BIOS + XT-IDE
+# F000-F1FF XT-IDE
+# F200-F7FF Empty
+# F800-F9FF Empty
+# FA00-FFFF Micro 8088
+	cat ide_xt_8088.bin > $@
+	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
+	dd if=/dev/zero ibs=1k count=8 | LANG=C tr "\000" "\377" >> $@
+	cat bios8088.bin >> $@
+
+# Second 64 KiB, GLaBIOS + GLaTICK + Multi-Floppy + XT-IDE
+# F000-F1FF XT-IDE
+# F200-F7FF Empty
+# F800-FB7F Empty
+# FB80-FBFF GLaTICK
+# FC00-FDFF Multi-Floppy
+# FE00-FFFF GLaBIOS
+	cat ide_xt_8088.bin >> $@
+	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
+	dd if=/dev/zero ibs=1k count=14 | LANG=C tr "\000" "\377" >> $@
+	cat glatick.bin >> $@
+	cat floppy_bios.bin >> $@
+	cat glabios_nuxt_8088.bin >> $@
+
 modules: bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_nuxt_8088.bin glabios_nuxt_v20.bin glatick.bin floppy_bios.bin
 
 clean:
@@ -97,5 +123,5 @@ clean:
 	@-rm -f $(XUB_DIR)/Build/*
 	@-rm -f $(GLABIOS_DIR)/GLANUXT.ASM
 	@-rm -f $(GLABIOS_DIR)/*.ROM $(GLABIOS_DIR)/*.OBJ $(GLABIOS_DIR)/*.EXE
-	@-rm -f $(GLATICK_DIR)/*.OBJ $(GLATICK_DIR)/GLATICK.ROM $(GLATICK_DIR)/GLATICK.EXE
-	@-rm -f bios-nuxt-v20-micro-glabios.bin
+	@-rm -f $(GLATICK_DIR)/*.OBJ $(GLATICK_DIR)/*.LST $(GLATICK_DIR)/GLATICK.ROM $(GLATICK_DIR)/GLATICK.MAP $(GLATICK_DIR)/GLATICK.EXE
+	@-rm -f bios-nuxt-v20-micro-glabios.bin bios-nuxt-8088-micro-glabios.bin

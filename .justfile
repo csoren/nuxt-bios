@@ -11,15 +11,16 @@ XUB_EXISTS := path_exists(XUB)
 @init:
     git submodule init
     git submodule update
+    if ! {{XUB_EXISTS}}; then \
+        svn checkout -r 625 https://www.xtideuniversalbios.org/svn/xtideuniversalbios/trunk/ {{XUB}}; \
+    fi
 
+    # Patch GLaTICK for NuXT
     cd {{GLATICK}}; sed -i 's/^SHOW_BANNER.*=.*/SHOW_BANNER=1/g' GLATICK.ASM
     cd {{GLATICK}}; sed -i 's/^.*RTC_AT.*EQU.*/RTC_AT EQU 1/g' RTC.INC
     cd {{GLATICK}}; sed -i 's/^.*RTC_OK.*EQU.*/;RTC_OK EQU 2/g' RTC.INC
     cd {{GLATICK}}; sed -i 's/^.*RTC_RP.*EQU.*/;RTC_RP EQU 3/g' RTC.INC
     
-    if ! {{XUB_EXISTS}}; then \
-        svn checkout -r 625 https://www.xtideuniversalbios.org/svn/xtideuniversalbios/trunk/ {{XUB}}; \
-    fi
 
 # Update the XT-IDE Universal BIOS to the latest revision
 @update-xub:
@@ -31,7 +32,7 @@ XUB_EXISTS := path_exists(XUB)
 
 # Build the BIOS'es
 @build-bios:
-    make bios-nuxt-v20-micro-glabios.bin
+    make bios-nuxt-v20-micro-glabios.bin bios-nuxt-8088-micro-glabios.bin
 
 # Remove build artifacts
 @clean:
