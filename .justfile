@@ -18,7 +18,7 @@ XUB_EXISTS := path_exists(XUB)
     cd {{GLATICK}}; sed -i 's/^.*RTC_RP.*EQU.*/;RTC_RP EQU 3/g' RTC.INC
     
     if ! {{XUB_EXISTS}}; then \
-        svn checkout https://www.xtideuniversalbios.org/svn/xtideuniversalbios/trunk/ {{XUB}}; \
+        svn checkout -r 625 https://www.xtideuniversalbios.org/svn/xtideuniversalbios/trunk/ {{XUB}}; \
     fi
 
 # Update the XT-IDE Universal BIOS to the latest revision
