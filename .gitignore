@@ -2,8 +2,8 @@ xub/
 ide_xt_8088.bin
 ide_xt_v20.bin
 bios8088.bin
-glabios_v20.bin
-glabios_8088.bin
 glatick.bin
 floppy_bios.bin
-bios-nuxt-glabios-v20.bin
+glabios_nuxt_v20.bin
+glabios_nuxt_8088.bin
+bios-nuxt-v20-micro-glabios.bin

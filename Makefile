@@ -27,11 +27,14 @@ $(XUB_DIR)/Build/ide_xt.bin:
 	$(MAKE) -C $(XUB_DIR) AS=nasm xt
 	perl $(XUB_DIR)/../Tools/checksum.pl $(XUB_DIR)/Build/ide_xt.bin 8192
 
-$(GLABIOS_DIR)/GLABIOS8.ROM: $(GLABIOS_DIR)/GLABIOS.ASM
-	dosbox GLMK8088.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
+$(GLABIOS_DIR)/GLANUXT.ASM: $(GLABIOS_DIR)/GLABIOS.ASM
+	sed 's/^MICRO_8088.*=.*/MICRO_8088=1/g' $< >$@
 
-$(GLABIOS_DIR)/GLABIOSV.ROM: $(GLABIOS_DIR)/GLABIOS.ASM
-	dosbox GLMKV20.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
+$(GLABIOS_DIR)/GLANUXT8.ROM: $(GLABIOS_DIR)/GLANUXT.ASM
+	dosbox GBN8.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
+
+$(GLABIOS_DIR)/GLANUXTV.ROM: $(GLABIOS_DIR)/GLANUXT.ASM
+	dosbox GBNV.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
 
 $(GLATICK_DIR)/GLATICK.ROM: $(GLATICK_SRC)
 	dosbox TICKMK.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
@@ -51,47 +54,48 @@ bios8088.bin: $(BIOS_8088_DIR)/bios.bin
 floppy_bios.bin: $(FLOPPY_BIOS_DIR)/floppy_bios.bin
 	cp $< $@
 
-glabios_8088.bin: $(GLABIOS_DIR)/GLABIOS8.ROM
+glabios_nuxt_8088.bin: $(GLABIOS_DIR)/GLANUXT8.ROM
 	cp $< $@
 
-glabios_v20.bin: $(GLABIOS_DIR)/GLABIOSV.ROM
+glabios_nuxt_v20.bin: $(GLABIOS_DIR)/GLANUXTV.ROM
 	cp $< $@
 
 glatick.bin: $(GLATICK_DIR)/GLATICK.ROM
 	cp $< $@
 
-bios-nuxt-glabios-v20.bin: bios8088.bin ide_xt_v20.bin glabios_v20.bin floppy_bios.bin glatick.bin
+bios-nuxt-v20-micro-glabios.bin: bios8088.bin ide_xt_v20.bin glabios_nuxt_v20.bin floppy_bios.bin glatick.bin
 # First 64 KiB, Micro 8088 BIOS + XT-IDE
 # F000-F1FF XT-IDE
-	cat ide_xt_v20.bin > $@
 # F200-F7FF Empty
-	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
 # F800-F9FF Empty
-	dd if=/dev/zero ibs=1k count=8 | LANG=C tr "\000" "\377" >> $@
 # FA00-FFFF Micro 8088
+	cat ide_xt_v20.bin > $@
+	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
+	dd if=/dev/zero ibs=1k count=8 | LANG=C tr "\000" "\377" >> $@
 	cat bios8088.bin >> $@
 
 # Second 64 KiB, GLaBIOS + GLaTICK + Multi-Floppy + XT-IDE
 # F000-F1FF XT-IDE
-	cat ide_xt_v20.bin >> $@
 # F200-F7FF Empty
+# F800-FB7F Empty
+# FB80-FBFF GLaTICK
+# FC00-FDFF Multi-Floppy
+# FE00-FFFF GLaBIOS
+	cat ide_xt_v20.bin >> $@
 	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
-# F800-FA7F Empty
 	dd if=/dev/zero ibs=1k count=14 | LANG=C tr "\000" "\377" >> $@
-# FA80-FC7F Multi-Floppy
-	cat floppy_bios.bin >> $@
-# FC80-FCFF GLaTICK
 	cat glatick.bin >> $@
-# FD00-FFFF GLaBIOS
-	cat glabios_v20.bin >> $@
+	cat floppy_bios.bin >> $@
+	cat glabios_nuxt_v20.bin >> $@
 
-modules: bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_8088.bin glabios_v20.bin glatick.bin floppy_bios.bin
+modules: bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_nuxt_8088.bin glabios_nuxt_v20.bin glatick.bin floppy_bios.bin
 
 clean:
-	@-rm -f bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_8088.bin glabios_v20.bin glatick.bin floppy_bios.bin
+	@-rm -f bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_nuxt_8088.bin glabios_nuxt_v20.bin glatick.bin floppy_bios.bin
 	@-$(MAKE) -s -C $(BIOS_8088_DIR) clean
 	@-$(MAKE) -s -C $(FLOPPY_BIOS_DIR) clean
 	@-rm -f $(XUB_DIR)/Build/*
-	@-rm -f $(GLABIOS_DIR)/GLABIOS8.ROM $(GLABIOS_DIR)/GLABIOSV.ROM $(GLABIOS_DIR)/GLABIOS.OBJ $(GLABIOS_DIR)/GLABIOS.EXE
+	@-rm -f $(GLABIOS_DIR)/GLANUXT.ASM
+	@-rm -f $(GLABIOS_DIR)/*.ROM $(GLABIOS_DIR)/*.OBJ $(GLABIOS_DIR)/*.EXE
 	@-rm -f $(GLATICK_DIR)/*.OBJ $(GLATICK_DIR)/GLATICK.ROM $(GLATICK_DIR)/GLATICK.EXE
-	@-rm -f bios-nuxt-glabios-v20.bin
+	@-rm -f bios-nuxt-v20-micro-glabios.bin
