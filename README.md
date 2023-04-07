@@ -1,13 +1,13 @@
 # About
 This repository contains scripts, patches and build recipes for building a custom BIOS for the Monotech NuXT modern PC XT compatible system.
 
-It aggregates the [Micro 8088 BIOS](https://github.com/skiselev/8088_bios), [XT-IDE Universal BIOS](https://www.xtideuniversalbios.org/), [GLaBIOS](https://github.com/640-KB/GLaBIOS), [GLaTICK](https://github.com/640-KB/GLaTICK) and [Multi-Floppy](https://github.com/skiselev/floppy_bios) in order to build a hybrid BIOS consisting of two separate BIOS implementations.
+It aggregates the [Micro 8088 BIOS](https://github.com/skiselev/8088_bios), [XT-IDE Universal BIOS](https://www.xtideuniversalbios.org/), [GLaBIOS](https://github.com/640-KB/GLaBIOS), [GLaTICK](https://github.com/640-KB/GLaTICK), [Multi-Floppy](https://github.com/skiselev/floppy_bios) and [IBM Cassette BASIC](https://en.wikipedia.org/wiki/IBM_BASIC) in order to build a hybrid BIOS consisting of two separate BIOS implementations.
 
 The hybrid BIOS is a 128 KiB image suitable for flashing onto the BIOS EEPROM. The user may select one of the two BIOS'es before booting the machine by the use of DIP switch 4 on the NuXT motherboard.
 
-The first BIOS is active when the switch is OFF, it consists of the Micro 8088 BIOS + XT-IDE for booting the CF Card. The Micro 8088 BIOS supports RTC and all types of floppy drives out of the box.
+The first BIOS is active when the switch is OFF, it consists of the Micro 8088 BIOS + XT-IDE for booting the CF Card. The Micro 8088 BIOS supports RTC and all types of floppy drives out of the box. This BIOS does not support IBM BASIC.
 
-The second BIOS is active when the switch is ON, this BIOS is based on GLaBIOS. GLaBIOS relies on option ROM's to provide certain functionality, so this half includes GLaTICK (for RTC support), Multi-Floppy (for supporting drives other than 360 KiB) and XT-IDE (for booting from CF Card). This is essentially the same functionality albeit in a different way.
+The second BIOS is active when the switch is ON, this BIOS is based on GLaBIOS. GLaBIOS relies on option ROM's to provide certain functionality, so this half includes GLaTICK (for RTC support), Multi-Floppy (for supporting drives other than 360 KiB) and XT-IDE (for booting from CF Card). This is essentially the same functionality albeit in a different way. This BIOS includes IBM BASIC so `BASICA.COM` will work.
 
 # Prequisites
 
@@ -46,7 +46,9 @@ To build the V20 optimized option `USE_NEC_V=1` is passed to `make`.
 ## GLaBIOS
 GLaBIOS is built using `masm` 6.11, this is included in the `masm` directory. DOSBox is used to do the build.
 
-Two DOS `.BAT` files are used to control the build process, `GBN8.BAT` (for (G)La(B)IOS (N)uXT (8)088) passes `/DARCH_TYPE='F' /DCPU_TYPE='8'` to `masm` for targeting Faraday FE2010A and 8088. `GBNV.BAT` (for (G)La(B)IOS (N)uXT (V)20) passes `/DARCH_TYPE='F' /DCPU_TYPE='V'` to target V20 instead. In `Makefile` `GLABIOS.ASM` is further patched and stored in `GLANUXT.ASM` to target the Micro 8088 platform specifically.
+GLaBIOS is patched to target NuXT hardware and to support IBM Cassette BASIC in `Makefile` using the `glabios.patch` file.
+
+Two DOS `.BAT` files are used to control the build process, `GBN8.BAT` (for (G)La(B)IOS (N)uXT (8)088) passes `/DARCH_TYPE='F' /DCPU_TYPE='8'` to `masm` for targeting Faraday FE2010A and 8088. `GBNV.BAT` (for (G)La(B)IOS (N)uXT (V)20) passes `/DARCH_TYPE='F' /DCPU_TYPE='V'` to target V20 instead.
 
 ## GLaTICK
 GLaTICK is also built using `masm` 6.11 through DOSBox.

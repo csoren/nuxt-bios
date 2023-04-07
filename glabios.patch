@@ -1,0 +1,8 @@
+291c291
+< BASIC_ROM		= 	0			; disable to free code space
+---
+> BASIC_ROM		= 	1			; disable to free code space
+300c300
+< MICRO_8088		=	0			; build for micro_8088 / NuXT
+---
+> MICRO_8088		=	1			; build for micro_8088 / NuXT

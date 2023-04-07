@@ -26,7 +26,7 @@ XUB_EXISTS := path_exists(XUB)
 
 # Build the BIOS'es
 @build-bios:
-    make bios-nuxt-v20-micro-glabios.bin bios-nuxt-8088-micro-glabios.bin
+    make -j bios-nuxt-v20-micro-glabios.bin bios-nuxt-8088-micro-glabios.bin
 
 # Remove build artifacts
 @clean:
