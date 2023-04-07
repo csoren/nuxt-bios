@@ -81,7 +81,7 @@ bios-nuxt-v20-micro-glabios.bin: bios8088.bin ide_xt_v20.bin glabios_nuxt_v20.bi
 	dd if=/dev/zero ibs=1k count=8 | LANG=C tr "\000" "\377" >> $@
 	cat bios8088.bin >> $@
 
-# Second 64 KiB, GLaBIOS + GLaTICK + Multi-Floppy + XT-IDE
+# Second 64 KiB, GLaBIOS + GLaTICK + Multi-Floppy + XT-IDE + BASIC
 # F000-F1FF XT-IDE
 # F200-F27F GLaTICK
 # F280-F47F Multi-Floppy
@@ -107,18 +107,18 @@ bios-nuxt-8088-micro-glabios.bin: bios8088.bin ide_xt_8088.bin glabios_nuxt_8088
 	dd if=/dev/zero ibs=1k count=8 | LANG=C tr "\000" "\377" >> $@
 	cat bios8088.bin >> $@
 
-# Second 64 KiB, GLaBIOS + GLaTICK + Multi-Floppy + XT-IDE
+# Second 64 KiB, GLaBIOS + GLaTICK + Multi-Floppy + XT-IDE + BASIC
 # F000-F1FF XT-IDE
-# F200-F7FF Empty
-# F800-FB7F Empty
-# FB80-FBFF GLaTICK
-# FC00-FDFF Multi-Floppy
+# F200-F27F GLaTICK
+# F280-F47F Multi-Floppy
+# F480-F5FF Empty
+# F600-FDFF ROM BASIC 1.1
 # FE00-FFFF GLaBIOS
 	cat ide_xt_8088.bin >> $@
-	dd if=/dev/zero ibs=1k count=24 | LANG=C tr "\000" "\377" >> $@
-	dd if=/dev/zero ibs=1k count=14 | LANG=C tr "\000" "\377" >> $@
 	cat glatick.bin >> $@
 	cat floppy_bios.bin >> $@
+	dd if=/dev/zero ibs=1k count=6 | LANG=C tr "\000" "\377" >> $@
+	cat $(BASIC) >> $@
 	cat glabios_nuxt_8088.bin >> $@
 
 modules: bios8088.bin ide_xt_8088.bin ide_xt_v20.bin glabios_nuxt_8088.bin glabios_nuxt_v20.bin glatick.bin floppy_bios.bin
