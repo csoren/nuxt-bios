@@ -1,7 +1,13 @@
 # About
 This repository contains scripts, patches and build recipes for building a custom BIOS for the Monotech NuXT modern PC XT compatible system.
 
-It aggregates the [Micro 8088 BIOS](https://github.com/skiselev/8088_bios), [XT-IDE Universal BIOS](https://www.xtideuniversalbios.org/), [GLaBIOS](https://github.com/640-KB/GLaBIOS), [GLaTICK](https://github.com/640-KB/GLaTICK) and [Multi-Floppy](https://github.com/skiselev/floppy_bios) in order to build a hybrid BIOS consisting of two separate BIOS implementations - the first half is a Micro 8088 BIOS + XT-IDE, the second half is GLaBIOS, GLaTICK, Multi-Floppy and XT-IDE which provides the same functionality albeit in a different way. The user may then switch between these two by the use of DIP switch 4 on the NuXT motherboard.
+It aggregates the [Micro 8088 BIOS](https://github.com/skiselev/8088_bios), [XT-IDE Universal BIOS](https://www.xtideuniversalbios.org/), [GLaBIOS](https://github.com/640-KB/GLaBIOS), [GLaTICK](https://github.com/640-KB/GLaTICK) and [Multi-Floppy](https://github.com/skiselev/floppy_bios) in order to build a hybrid BIOS consisting of two separate BIOS implementations.
+
+The hybrid BIOS is a 128 KiB image suitable for flashing onto the BIOS EEPROM. The user may select one of the two BIOS'es before booting the machine by the use of DIP switch 4 on the NuXT motherboard.
+
+The first BIOS is active when the switch is OFF, it consists of the Micro 8088 BIOS + XT-IDE for booting the CF Card. The Micro 8088 BIOS supports RTC and all types of floppy drives out of the box.
+
+The second BIOS is active when the switch is ON, this BIOS is based on GLaBIOS. GLaBIOS relies on option ROM's to provide certain functionality, so this half includes GLaTICK (for RTC support), Multi-Floppy (for supporting drives other than 360 KiB) and XT-IDE (for booting from CF Card). This is essentially the same functionality albeit in a different way.
 
 # Prequisites
 
