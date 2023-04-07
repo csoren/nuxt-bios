@@ -14,12 +14,6 @@ XUB_EXISTS := path_exists(XUB)
     if ! {{XUB_EXISTS}}; then \
         svn checkout -r 625 https://www.xtideuniversalbios.org/svn/xtideuniversalbios/trunk/ {{XUB}}; \
     fi
-
-    # Patch GLaTICK for NuXT
-    cd {{GLATICK}}; sed -i 's/^SHOW_BANNER.*=.*/SHOW_BANNER=1/g' GLATICK.ASM
-    cd {{GLATICK}}; sed -i 's/^.*RTC_AT.*EQU.*/RTC_AT EQU 1/g' RTC.INC
-    cd {{GLATICK}}; sed -i 's/^.*RTC_OK.*EQU.*/;RTC_OK EQU 2/g' RTC.INC
-    cd {{GLATICK}}; sed -i 's/^.*RTC_RP.*EQU.*/;RTC_RP EQU 3/g' RTC.INC
     
 
 # Update the XT-IDE Universal BIOS to the latest revision
@@ -37,3 +31,6 @@ XUB_EXISTS := path_exists(XUB)
 # Remove build artifacts
 @clean:
     make clean
+
+@_flash-test: build-bios
+    minipro -w bios-nuxt-v20-micro-glabios.bin -p SST39SF010A

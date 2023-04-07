@@ -14,7 +14,8 @@ GLATICK_SRC = \
 	$(GLATICK_DIR)/RTC_NS.ASM \
 	$(GLATICK_DIR)/RTC_OK.ASM \
 	$(GLATICK_DIR)/RTC_RP.ASM \
-	$(GLATICK_DIR)/SEGS.INC
+	$(GLATICK_DIR)/SEGS.INC \
+	rtc.patch
 
 $(BIOS_8088_DIR)/bios.bin:
 	$(MAKE) -C $(BIOS_8088_DIR) bios.bin
@@ -37,6 +38,7 @@ $(GLABIOS_DIR)/GLANUXTV.ROM: $(GLABIOS_DIR)/GLANUXT.ASM
 	dosbox GBNV.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
 
 $(GLATICK_DIR)/GLATICK.ROM: $(GLATICK_SRC)
+	-patch -r /dev/null -N glatick/src/RTC.INC rtc.patch
 	dosbox TICKMK.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
 
 $(FLOPPY_BIOS_DIR)/floppy_bios.bin:

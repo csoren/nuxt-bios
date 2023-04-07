@@ -45,5 +45,5 @@ Two DOS `.BAT` files are used to control the build process, `GBN8.BAT` (for (G)L
 ## GLaTICK
 GLaTICK is also built using `masm` 6.11 through DOSBox.
 
-GLaTICK is patched to target NuXT hardware in `.justfile` as part of the `init` recipe.
+GLaTICK is patched to target NuXT hardware RTC's in `Makefile` using the `rtc.patch` file.
 

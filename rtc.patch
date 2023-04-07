@@ -1,0 +1,14 @@
+11,13c11,13
+< ;RTC_AT		EQU	1			; 1 AT - DS12x85/MC146818
+< RTC_OK		EQU	2			; 2 OK - MSM5832
+< RTC_RP		EQU	3			; 3 RP - Ricoh RP5C15
+---
+> RTC_AT		EQU	1			; 1 AT - DS12x85/MC146818
+> ;RTC_OK		EQU	2			; 2 OK - MSM5832
+> ;RTC_RP		EQU	3			; 3 RP - Ricoh RP5C15
+16,17c16,17
+< RTC_NS		EQU	6			; 6 NS - MM58167AN 16 ports * must be 6
+< RTC_NS2		EQU	7			; 7 NS - MM58167AN 2 ports  * must be 7
+---
+> ;RTC_NS		EQU	6			; 6 NS - MM58167AN 16 ports * must be 6
+> ;RTC_NS2		EQU	7			; 7 NS - MM58167AN 2 ports  * must be 7
