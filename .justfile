@@ -22,15 +22,15 @@ XUB_EXISTS := path_exists(XUB)
 
 # Build all modules
 @build-modules:
-    make modules
+    make -j modules
 
 # Build the BIOS'es
-@build-bios:
-    make -j bios-nuxt-v20-micro-glabios.bin bios-nuxt-8088-micro-glabios.bin
+@build:
+    make -j all
 
 # Remove build artifacts
 @clean:
     make clean
 
-@_flash-test: build-bios
-    minipro -w bios-nuxt-v20-micro-glabios.bin -p SST39SF010A
+@_flash-test: build
+    minipro -w bios-nuxt-hybrid-v20.bin -p SST39SF010A

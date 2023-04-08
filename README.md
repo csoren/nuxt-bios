@@ -24,11 +24,24 @@ After first cloning the project, perform `just init` to retrieve all submodules 
 
 # Building
 
-All BIOS'es may be built by issuing `just build-bios`. Alternatively a single BIOS can be built by using make.
+All BIOS'es may be built by issuing `just build` (or `make -j`). Alternatively a single BIOS can be built by using `make`.
 
-To build a 8088 compatible BIOS: `make bios-nuxt-8088-micro-glabios.bin`
+Micro 8088 builds contain the Micro 8088 main BIOS + XT-IDE.
 
-To build a V20 optimized BIOS: `make bios-nuxt-v20-micro-glabios.bin`
+GLaBIOS builds contain the main GLaBIOS BIOS and XT-IDE + Multi-Floppy + GLaTICK + BASIC.
+
+"Hybrid" builds are 128 KiB images suitable for replacing the whole EEPROM content, other builds can be used to write each EEPROM half independently or to create other "hybrids".
+
+Artifacts built are:
+
+| Name | Content | Size |
+|-|-|-|
+|`bios-nuxt-hybrid-universal.bin`|Hybrid universal|128 KiB|
+|`bios-nuxt-hybrid-V20.bin`|Hybrid V20 optimized|128 KiB|
+|`bios-nuxt-glabios-universal.bin`|GLaBIOS universal|64 KiB|
+|`bios-nuxt-glabios-v20.bin`|GLaBIOS V20 optimized|64 KiB|
+|`bios-nuxt-micro-universal.bin`|Micro 8088 universal 8088|64 KiB|
+|`bios-nuxt-micro-v20.bin`|GLaBIOS V20 optimized|64 KiB|
 
 # Implementation notes
 
