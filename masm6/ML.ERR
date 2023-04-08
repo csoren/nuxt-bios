@@ -235,7 +235,9 @@ reference to forward macro definition
 16 bit segments not allowed with /coff option
 FAR not allowed in flat model comm variables
 invalid .model parameter for flat model
-.ALIAS directive not supported with /coff option
+ALIAS name is empty
+GROUP directive not allowed with /coff option
+.FPO is not compatible with nested procedures
 LEVEL 1
 cannot modify READONLY segment
 N/A
@@ -255,6 +257,9 @@ directive ignored with /coff switch
 /Gc switch incompatible with flat model
 /AT switch incompatible with flat model
 invalid command-line option
+directive ignored without /coff switch
+directive ignored outside a procedure
+LOADDS ignored in flat model
 LEVEL 2
 @@: label defined but not referenced
 expression expected, assume value 0

@@ -1,5 +1,5 @@
 # About
-This repository contains scripts, patches and build recipes for building a custom BIOS for the Monotech NuXT modern PC XT compatible system.
+This repository contains scripts, patches and build recipes for building a custom BIOS from source for the Monotech NuXT modern PC XT compatible system.
 
 It aggregates the [Micro 8088 BIOS](https://github.com/skiselev/8088_bios), [XT-IDE Universal BIOS](https://www.xtideuniversalbios.org/), [GLaBIOS](https://github.com/640-KB/GLaBIOS), [GLaTICK](https://github.com/640-KB/GLaTICK), [Multi-Floppy](https://github.com/skiselev/floppy_bios) and [IBM Cassette BASIC](https://en.wikipedia.org/wiki/IBM_BASIC) in order to build a hybrid BIOS consisting of two separate BIOS implementations.
 

@@ -37,17 +37,17 @@ $(GLABIOS_DIR)/_patched: $(GLABIOS_DIR)/GLABIOS.ASM glabios.patch
 	touch $@
 
 $(GLABIOS_DIR)/GLANUXT8.ROM: $(GLABIOS_DIR)/GLABIOS.ASM $(GLABIOS_DIR)/_patched
-	dosbox GBN8.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
+	dosbox GBN8.BAT -exit -c "MOUNT D \"masm6" -c "PATH D:;Z:"
 
 $(GLABIOS_DIR)/GLANUXTV.ROM: $(GLABIOS_DIR)/GLABIOS.ASM $(GLABIOS_DIR)/_patched
-	dosbox GBNV.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
+	dosbox GBNV.BAT -exit -c "MOUNT D \"masm6" -c "PATH D:;Z:"
 
 $(GLATICK_DIR)/_patched: $(GLATICK_SRC) rtc.patch
 	-patch -r /dev/null -N $(GLATICK_DIR)/RTC.INC rtc.patch
 	touch $@
 
 $(GLATICK_DIR)/GLATICK.ROM: $(GLATICK_SRC) $(GLATICK_DIR)/_patched
-	dosbox TICKMK.BAT -exit -c "MOUNT D \"masm" -c "PATH D:;Z:"
+	dosbox TICKMK.BAT -exit -c "MOUNT D \"masm6" -c "PATH D:;Z:"
 
 $(FLOPPY_BIOS_DIR)/floppy_bios.bin:
 	$(MAKE) -C $(FLOPPY_BIOS_DIR) floppy_bios.bin
