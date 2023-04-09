@@ -1,5 +1,5 @@
 # About
-This repository contains scripts, patches and build recipes for building a custom BIOS from source for the Monotech NuXT modern PC XT compatible system.
+This repository contains scripts, patches and build recipes for building a custom BIOS from source for the Monotech NuXT V1 modern PC XT compatible system. It will currently *not* work on V2. If you would like to help, please look at [this issue](https://github.com/csoren/nuxt-bios/issues/2).
 
 It aggregates the [Micro 8088 BIOS](https://github.com/skiselev/8088_bios), [XT-IDE Universal BIOS](https://www.xtideuniversalbios.org/), [GLaBIOS](https://github.com/640-KB/GLaBIOS), [GLaTICK](https://github.com/640-KB/GLaTICK), [Multi-Floppy](https://github.com/skiselev/floppy_bios) and [IBM Cassette BASIC](https://en.wikipedia.org/wiki/IBM_BASIC) in order to build a hybrid BIOS consisting of two separate BIOS implementations.
 
@@ -9,7 +9,13 @@ The first BIOS is active when the switch is OFF, it consists of the Micro 8088 B
 
 The second BIOS is active when the switch is ON, this BIOS is based on GLaBIOS. GLaBIOS relies on option ROM's to provide certain functionality, so this half includes GLaTICK (for RTC support), Multi-Floppy (for supporting drives other than 360 KiB) and XT-IDE (for booting from CF Card). This is essentially the same functionality albeit in a different way. This BIOS includes IBM BASIC so `BASICA.COM` will work.
 
-# Prequisites
+# Downloading
+
+The BIOS images can either be built from source by following the instructions below, or downloaded from the [releases page](https://github.com/csoren/nuxt-bios/releases).
+
+# Building
+
+## Prequisites
 
 `svn` and `dosbox` must be available to run from the command line.
 
@@ -18,11 +24,11 @@ On Ubuntu this can be done with apt:
 
 To use the helper scripts (not mandatory but makes things easier), `just` must be installed. It is often found in your distribution's package manager, but if it isn't you may need to follow specific instructions in [just's repository](https://github.com/casey/just). If `just` is not installed, consult the `.justfile` and find the relevant recipe when needed.
 
-# Setting up
+## Setting up
 
 After first cloning the project, perform `just init` to retrieve all submodules and dependencies.
 
-# Building
+## Building
 
 All BIOS'es may be built by issuing `just build` (or `make -j`). Alternatively a single BIOS can be built by using `make`.
 
@@ -57,14 +63,14 @@ To build on Linux the `AS` variable is passed to `make` as `AS=nasm`.
 To build the V20 optimized option `USE_NEC_V=1` is passed to `make`.
 
 ## GLaBIOS
-GLaBIOS is built using `masm` 6.11, this is included in the `masm` directory. DOSBox is used to do the build.
+GLaBIOS is built using `masm` 5.0, this is included in the `masm5` directory. DOSBox is used to do the build.
 
 GLaBIOS is patched to target NuXT hardware and to support IBM Cassette BASIC in `Makefile` using the `glabios.patch` file.
 
 Two DOS `.BAT` files are used to control the build process, `GBN8.BAT` (for (G)La(B)IOS (N)uXT (8)088) passes `/DARCH_TYPE='F' /DCPU_TYPE='8'` to `masm` for targeting Faraday FE2010A and 8088. `GBNV.BAT` (for (G)La(B)IOS (N)uXT (V)20) passes `/DARCH_TYPE='F' /DCPU_TYPE='V'` to target V20 instead.
 
 ## GLaTICK
-GLaTICK is also built using `masm` 6.11 through DOSBox.
+GLaTICK is also built using `masm` 5.0 through DOSBox.
 
 GLaTICK is patched to target NuXT hardware RTC's in `Makefile` using the `rtc.patch` file.
 

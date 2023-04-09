@@ -32,5 +32,8 @@ XUB_EXISTS := path_exists(XUB)
 @clean:
     make clean
 
+@release xub glabios micro8088: clean build
+    gh release create xub-{{xub}}_glabios-{{glabios}}_micro8088-{{micro8088}} --notes XT-IDE\ Universal\ BIOS\ {{xub}},\ GLaBIOS\ {{glabios}},\ Micro\ 8088\ {{micro8088}} bios-*.bin
+
 @_flash-test: build
     minipro -w bios-nuxt-hybrid-v20.bin -p SST39SF010A
