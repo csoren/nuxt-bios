@@ -9,6 +9,15 @@ The first BIOS is active when the switch is OFF, it consists of the Micro 8088 B
 
 The second BIOS is active when the switch is ON, this BIOS is based on GLaBIOS. GLaBIOS relies on option ROM's to provide certain functionality, so this half includes GLaTICK (for RTC support), Multi-Floppy (for supporting drives other than 360 KiB) and XT-IDE (for booting from CF Card). This is essentially the same functionality albeit in a different way. This BIOS includes IBM BASIC so `BASICA.COM` will work.
 
+Current versions of the different modules are:
+
+|Module|Version|
+|---|---|
+|Micro 8088|v0.9.9|
+|GLaBIOS|v0.2.4|
+|XT-IDE Universal BIOS|r625|
+
+
 # Downloading
 
 The BIOS images can either be built from source by following the instructions below, or downloaded from the [releases page](https://github.com/csoren/nuxt-bios/releases).
@@ -70,5 +79,5 @@ Two DOS `.BAT` files are used to control the build process, `GBN8.BAT` (for (G)L
 ## GLaTICK
 GLaTICK is also built using `masm` 5.0 through DOSBox.
 
-GLaTICK is patched to target NuXT hardware RTC's in `Makefile` using the `rtc.patch` file.
+GLaTICK is patched to target common NuXT hardware RTC's in `Makefile` using the `rtc.patch` file.
 

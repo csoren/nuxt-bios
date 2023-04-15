@@ -138,7 +138,5 @@ clean:
 	@-rm -f $(GLABIOS_DIR)/*.ROM $(GLABIOS_DIR)/*.OBJ $(GLABIOS_DIR)/*.EXE
 	@-rm -f $(GLATICK_DIR)/*.OBJ $(GLATICK_DIR)/*.LST $(GLATICK_DIR)/GLATICK.ROM $(GLATICK_DIR)/GLATICK.MAP $(GLATICK_DIR)/GLATICK.EXE
 	@-rm -f bios-nuxt-*.bin
-	@(cd $(GLABIOS_DIR); git checkout GLABIOS.ASM)
-	@-rm -f $(GLABIOS_DIR)/_patched
 	@(cd $(GLATICK_DIR); git checkout RTC.INC)
 	@-rm -f $(GLATICK_DIR)/_patched
