@@ -32,14 +32,10 @@ $(XUB_DIR)/Build/ide_xt.bin:
 	$(MAKE) -C $(XUB_DIR) AS=nasm xt
 	perl $(XUB_DIR)/../Tools/checksum.pl $(XUB_DIR)/Build/ide_xt.bin 8192
 
-$(GLABIOS_DIR)/_patched: $(GLABIOS_DIR)/GLABIOS.ASM glabios.patch
-	-patch -r /dev/null -N $(GLABIOS_DIR)/GLABIOS.ASM glabios.patch
-	touch $@
-
-$(GLABIOS_DIR)/GLANUXT8.ROM: $(GLABIOS_DIR)/GLABIOS.ASM $(GLABIOS_DIR)/_patched
+$(GLABIOS_DIR)/GLANUXT8.ROM: $(GLABIOS_DIR)/GLABIOS.ASM
 	dosbox GBN8.BAT -exit -c "MOUNT D \"masm5\"" -c "PATH D:;Z:"
 
-$(GLABIOS_DIR)/GLANUXTV.ROM: $(GLABIOS_DIR)/GLABIOS.ASM $(GLABIOS_DIR)/_patched
+$(GLABIOS_DIR)/GLANUXTV.ROM: $(GLABIOS_DIR)/GLABIOS.ASM
 	dosbox GBNV.BAT -exit -c "MOUNT D \"masm5\"" -c "PATH D:;Z:"
 
 $(GLATICK_DIR)/_patched: $(GLATICK_SRC) rtc.patch

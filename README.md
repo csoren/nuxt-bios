@@ -65,8 +65,6 @@ To build the V20 optimized option `USE_NEC_V=1` is passed to `make`.
 ## GLaBIOS
 GLaBIOS is built using `masm` 5.0, this is included in the `masm5` directory. DOSBox is used to do the build.
 
-GLaBIOS is patched to target NuXT hardware and to support IBM Cassette BASIC in `Makefile` using the `glabios.patch` file.
-
 Two DOS `.BAT` files are used to control the build process, `GBN8.BAT` (for (G)La(B)IOS (N)uXT (8)088) passes `/DARCH_TYPE='F' /DCPU_TYPE='8'` to `masm` for targeting Faraday FE2010A and 8088. `GBNV.BAT` (for (G)La(B)IOS (N)uXT (V)20) passes `/DARCH_TYPE='F' /DCPU_TYPE='V'` to target V20 instead.
 
 ## GLaTICK
